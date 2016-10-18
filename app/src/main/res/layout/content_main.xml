@@ -29,11 +29,10 @@
         android:textSize="18sp"
         android:text="Because alarms are too much work" />
 
-    <Button
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign In With Google"
-        android:layout_marginTop="18dp"
-        android:onClick="signin" />
+        android:layout_marginTop="16dp"/>
 
 </LinearLayout>
