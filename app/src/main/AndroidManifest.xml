@@ -18,6 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".UpcomingAlarmsActivity"
+            android:label="@string/title_activity_upcoming_alarms"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
