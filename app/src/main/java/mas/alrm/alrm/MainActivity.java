@@ -23,6 +23,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
@@ -73,11 +78,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    Intent intent = new Intent(MainActivity.this, UpcomingAlarmsActivity.class);
-                    intent.putExtra("displayName", user.getDisplayName());
-                    intent.putExtra("email", user.getEmail());
-                    startActivity(intent);
+                    final DatabaseReference databaseReference =
+                            FirebaseDatabase.getInstance().
+                                    getReference("users").
+                                    child(user.getUid());
+                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Intent intent;
+                            if (!dataSnapshot.child("token").exists()) {
+                                intent = new Intent(MainActivity.this, CalendarAuthActivity.class);
+                                startActivity(intent);
+                            } else {
+                                intent = new Intent(MainActivity.this, UpcomingAlarmsActivity.class);
+                                startActivity(intent);
+                            }
+                            finish();
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.d("FIREBASE MainActivity", databaseError.getMessage());
+                        }
+                    });
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
