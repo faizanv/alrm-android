@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             Intent intent;
                             if (!dataSnapshot.child("token").exists()) {
-                                intent = new Intent(MainActivity.this, CalendarAuthActivity.class);
+                                intent = new Intent(MainActivity.this, CalendarLinkActivity.class);
                                 startActivity(intent);
                             } else {
                                 intent = new Intent(MainActivity.this, UpcomingAlarmsActivity.class);

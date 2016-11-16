@@ -63,7 +63,7 @@ public class CalendarAuthActivity extends AppCompatActivity
 
     private static final String BUTTON_TEXT = "Call Google Calendar API";
     private static final String PREF_ACCOUNT_NAME = "accountName";
-    private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
+    private static final String[] SCOPES = { CalendarScopes.CALENDAR };
 
     /**
      * Create the main activity.
@@ -386,7 +386,7 @@ public class CalendarAuthActivity extends AppCompatActivity
         private List<String> getDataFromApi() throws IOException {
             // List the next 10 events from the primary calendar.
             DateTime now = new DateTime(System.currentTimeMillis());
-            List<String> eventStrings = new ArrayList<String>();
+            List<String> eventStrings = new ArrayList<>();
             Events events = mService.events().list("primary")
                     .setMaxResults(10)
                     .setTimeMin(now)
